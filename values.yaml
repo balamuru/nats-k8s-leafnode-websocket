@@ -1,0 +1,24 @@
+nats:
+  image: nats:2.6.5-alpine
+  pullPolicy: IfNotPresent
+
+leafnodes:
+  enabled: true
+  noAdvertise: false
+  tls:
+   secret:
+     name: nats-server-tls
+   ca: "ca.crt"
+   cert: "tls.crt"
+   key: "tls.key"
+
+websocket:
+  enabled: true
+  port: 443
+  noTLS: false
+  tls:
+    secret:
+      name: nats-server-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
