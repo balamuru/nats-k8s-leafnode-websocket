@@ -4,6 +4,6 @@ Demonstration of how to connect a NATS leafnode using websockets. Assumes a work
 * Download nats-server binary from https://github.com/nats-io/nats-server/releases
 * Execute `./create-certs.sh` to create the necessary keys, certificates and import into K8s as secrets
 * Install nats in K8s with leaf node and websockets enabled `helm install nats nats/nats -f values.yml`
-* Create a NodePort service to expose NATS for demonstration purposes `kubectl apply -f nats-public.yaml`
-* Start the leaf node server configured to connect to the main NATS server
+* Create a NodePort service to expose NATS for demonstration purposes `kubectl apply -f nats-public.yaml` . Note the public port for websocket (the port corresponding to 443)
+* Start the leaf node server configured to connect to the main NATS server on its public websocket port via secure websocket `nats-server -c nats-leafnode.conf -DVV`
 
