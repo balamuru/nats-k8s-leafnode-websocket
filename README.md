@@ -19,11 +19,13 @@ The NATS "way" is to to enable websockets + TLS on the main NATS cluster. The ma
 ## Procedure
 For this demonstration, the leaf node will be configured to connect to the main NATS cluster's **NodePort** via Secure WebSockets. In a real life use-case, the connection would likely be tunneled via a secure access such as an OCP route
 * Execute `./create-certs.sh` to create the necessary keys, certificates and import into K8s as secrets
+
 * Install nats in K8s with leaf node and websockets enabled using the values file provided in this tutorial`helm install nats nats/nats -f values.yml`
 * Create a NodePort service to expose NATS via NodePort for demonstration purposes `kubectl apply -f nats-public.yaml` . Be sure to note the public NodePort port.
 * Configure the NodePort port in `nats-leafnode.conf`
 * Start the leaf node server configured to listen on port `4111` and connect to the main NATS server using Secure WebSockets on the NodePort described above `./nats-server -DVV -c nats-leafnode.conf`
-* Prepare tp 
+
+* Subscribe to messages via the main NATS cluster
 ```
 $ kubectl get svc 
 NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                         AGE
@@ -34,9 +36,10 @@ $ nats sub -s nats://localhost:30065 test.topic
 11:30:54 Subscribing on test.topic
 [#1] Received on "test.topic"
 hello world ========================================> rcvd the published message
+=======
 
 ```
-
+* Publish via the leaf node which relays the payload to the main NATS cluster via Secure Websockets 
 ```
 $ nats pub -s nats://localhost:4111 test.topic "hello world"
 11:32:03 Published 11 bytes to "test.topic" =======> publish a message
