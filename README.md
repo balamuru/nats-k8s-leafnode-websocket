@@ -10,7 +10,7 @@ Part of the NATS TLS HandShake is in plain text. This results in a major inconve
 ### How
 The NATS "way" is to to enable websockets + TLS on the main NATS cluster. The main NATS cluster communicates with the leaf node) via Secure WebSocket via TLS / Seure WebSockets
 
-![ws flow](ws.png)
+![ws flow](ws-flow.png)
 
 ## Prerequisites
 * This guide assumes that a working K8s cluster is available. My recommendation for a personal "real" k8s distribution is [k3s](https://k3s.io/)
